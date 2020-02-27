@@ -120,7 +120,7 @@ public class WeatherServiceImpl implements WeatherService {
 		City city=CityServiceImpl.searchCity(selectedcity);
 		GregorianCalendar currentDate=new GregorianCalendar();
 		currentDate.roll(Calendar.DAY_OF_YEAR,1);
-		SingleDayWeather currentWeather=new SingleDayWeather(city, new GregorianCalendar(),weatherProvider);
+		SingleDayWeather currentWeather=new SingleDayWeather(city, currentDate,weatherProvider);
 		if(weatherProvider.equalsIgnoreCase("yandex")) {
 				Document document=Jsoup.connect("https://yandex.ru/pogoda/"+city.getCityDescribeYa()+"/details").get();
 	
