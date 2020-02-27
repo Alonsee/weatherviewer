@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -16,6 +17,7 @@ import weatherviewer.pojo.City;
 import weatherviewer.pojo.SingleDayWeather;
 
 @Service
+@RequestScope
 public class WeatherServiceImpl implements WeatherService {
 	
 	CityService CityServiceImpl;

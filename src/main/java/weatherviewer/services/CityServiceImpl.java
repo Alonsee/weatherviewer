@@ -7,12 +7,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import weatherviewer.exceptions.CityNotFoundException;
 import weatherviewer.exceptions.CreateCityException;
 import weatherviewer.pojo.City;
 
 @Service
+@RequestScope
 public class CityServiceImpl implements CityService{
 	
 	private static ArrayList<City> allcity=new ArrayList<City>();
