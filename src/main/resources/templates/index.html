@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Weather viewer</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+</head>
+
+<body>
+	<header class="mt-2 mb-2" role="banner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">		
+				</div>
+				<div class="col-md-6">
+					<h1>Weather viewer</h1>
+				</div>
+				<div class="col-md-3">
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<div class='container'>
+	<nav class="navbar navbar-expand-lg top">
+		<!-- information about the displayed data -->
+		<a class="navbar-brand" th:href="@{/}" th:if="(${currentweather}!=null)">
+		Погода в городе <span th:text="${currentweather.city.cityName}"></span>, 
+		данные с сервиса <span th:text="${currentweather.weatherprovider}"></span></a>
+		
+		 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+   		 <span class="navbar-toggler-icon"></span>
+ 		 </button>
+		<div class="collapse navbar-collapse " id="navbarSupportedContent">
+     		<ul class="navbar-nav mr-4">
+     			<!-- city selection menu -->
+     			  <li class="nav-item dropdown">
+				         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    Выбрать город
+						 </button>
+				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a class="dropdown-item" th:href="@{/index(cityname=${city.cityName})}" th:each="city:${allCity}" th:text="${city.cityName}"></a>
+				        </div>
+			      </li>  
+			      <!-- service selection menu -->
+			      <li class="nav-item dropdown">
+				         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    Выбрать сервис
+						 </button>
+				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a class="dropdown-item" th:href="@{/index(service='yandex')}" >yandex</a>
+				          <a class="dropdown-item" th:href="@{/index(service='gismeteo')}" >gismeteo</a>
+				        </div>
+			      </li>    
+			      <!-- search for a city that is not in the list -->   			
+      			 <li class="nav-item">
+         			<form th:action="@{/index}" method="get">
+						<div class='form-group row'>
+							<input type='text' class='form-control' name="cityname" placeholder="Поиск">
+							<button type="submit" class="btn btn-primary">Найти</button>
+						</div>		
+					</form>
+      			 </li>
+     		</ul>
+     
+   		</div>
+	</nav>
+	</div>
+
+	<div class='container'>
+		
+		<div class="row align-items-start">
+		
+			<!-- if the city is not delected -->
+			<div class="col-lg" th:if="(${currentweather}==null)">
+				<h4>Выберите город для отображения погоды</h4>
+			</div>
+			
+			<!-- show current weather -->
+			<div class="col-lg"  th:if="(${currentweather}!=null)">
+			<h2>Сегодня <span th:text="${#dates.format(currentweather.date,'dd-MM-yyyy')}"></span></h2>
+			<table class="table">
+			 	<thead>
+						<tr>
+							<th scope="col">Время суток</th>
+							<th scope="col">температура</th>
+							<th scope="col">облачность</th>
+							<th scope="col">скорость ветра, м/с</th>
+							<th scope="col">давление, мм рт. ст.</th>
+							<th scope="col">влажность, %</th>
+						</tr>				
+				</thead>
+				<tbody>
+					<tr>
+						<td>Утром</td>
+						<td th:text="${currentweather.temperature[0]}"></td>
+						<td th:text="${currentweather.cloudiness[0]}"></td>
+						<td th:text="${currentweather.wind[0]}"></td>
+						<td th:text="${currentweather.pressure[0]}"></td>
+						<td th:text="${currentweather.humidity[0]}"></td>
+					</tr><tr>
+						<td>Днем</td>
+						<td th:text="${currentweather.temperature[1]}"></td>
+						<td th:text="${currentweather.cloudiness[1]}"></td>
+						<td th:text="${currentweather.wind[1]}"></td>
+						<td th:text="${currentweather.pressure[1]}"></td>
+						<td th:text="${currentweather.humidity[1]}"></td>
+					</tr>
+					<tr>
+						<td>Вечером</td>
+						<td th:text="${currentweather.temperature[2]}"></td>
+						<td th:text="${currentweather.cloudiness[2]}"></td>
+						<td th:text="${currentweather.wind[2]}"></td>
+						<td th:text="${currentweather.pressure[2]}"></td>
+						<td th:text="${currentweather.humidity[2]}"></td>
+					</tr>
+					<tr>
+						<td>Ночью</td>
+						<td th:text="${currentweather.temperature[3]}"></td>
+						<td th:text="${currentweather.cloudiness[3]}"></td>
+						<td th:text="${currentweather.wind[3]}"></td>
+						<td th:text="${currentweather.pressure[3]}"></td>
+						<td th:text="${currentweather.humidity[3]}"></td>
+					</tr>
+				</tbody>
+				</table>
+				
+				<h2>Завтра <span th:text="${#dates.format(tomorrowweather.date,'dd-MM-yyyy')}"></span></h2>
+				<table class="table">
+				 	<thead>
+							<tr>
+								<th scope="col">Время суток</th>
+								<th scope="col">температура</th>
+								<th scope="col">облачность</th>
+								<th scope="col">скорость ветра, м/с</th>
+								<th scope="col">давление, мм рт. ст.</th>
+								<th scope="col">влажность, %</th>
+							</tr>				
+					</thead>
+					<tbody>
+						<tr>
+							<td>Утром</td>
+							<td th:text="${tomorrowweather.temperature[0]}"></td>
+							<td th:text="${tomorrowweather.cloudiness[0]}"></td>
+							<td th:text="${tomorrowweather.wind[0]}"></td>
+							<td th:text="${tomorrowweather.pressure[0]}"></td>
+							<td th:text="${tomorrowweather.humidity[0]}"></td>
+						</tr><tr>
+							<td>Днем</td>
+							<td th:text="${tomorrowweather.temperature[1]}"></td>
+							<td th:text="${tomorrowweather.cloudiness[1]}"></td>
+							<td th:text="${tomorrowweather.wind[1]}"></td>
+							<td th:text="${tomorrowweather.pressure[1]}"></td>
+							<td th:text="${tomorrowweather.humidity[1]}"></td>
+						</tr>
+						<tr>
+							<td>Вечером</td>
+							<td th:text="${tomorrowweather.temperature[2]}"></td>
+							<td th:text="${tomorrowweather.cloudiness[2]}"></td>
+							<td th:text="${tomorrowweather.wind[2]}"></td>
+							<td th:text="${tomorrowweather.pressure[2]}"></td>
+							<td th:text="${tomorrowweather.humidity[2]}"></td>
+						</tr>
+						<tr>
+							<td>Ночью</td>
+							<td th:text="${tomorrowweather.temperature[3]}"></td>
+							<td th:text="${tomorrowweather.cloudiness[3]}"></td>
+							<td th:text="${tomorrowweather.wind[3]}"></td>
+							<td th:text="${tomorrowweather.pressure[3]}"></td>
+							<td th:text="${tomorrowweather.humidity[3]}"></td>
+						</tr>
+					</tbody>
+					</table>
+			</div>
+		</div>
+	
+	</div>
+	
+	
+  	<script src="https://yastatic.net/jquery/3.3.1/jquery.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> 	
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script type="text/javascript" th:href="@{/js/index.js}"></script>	
+</body>
+
+</html>
