@@ -1,39 +1,45 @@
 package weatherviewer.pojo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="cities")
 public class City {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private String cityName;
-	private String yandCityDescribe;
-	private String goCityDescribe;
 	
-	public City(int id, String name, String yandDescribe,String goDescribe) {
-		this.setId(id);
-		cityName=name;
-		yandCityDescribe=yandDescribe;
-		goCityDescribe=goDescribe;
-	}
+	private String cityname;
+	private String yandcitydescribe;
+	private String gocitydescribe;
+	
+	public City() {}
 	
 	public City(String name, String yandDescribe,String goDescribe) {
-		cityName=name;
-		yandCityDescribe=yandDescribe;
-		goCityDescribe=goDescribe;
+		cityname=name;
+		yandcitydescribe=yandDescribe;
+		gocitydescribe=goDescribe;
 	}
 
 	public String getCityName() {
-		return cityName;
+		return cityname;
 	}
 
 	public void setCityName(String cityName) {
-		this.cityName = cityName;
+		this.cityname = cityName;
 	}
 
 	public String getCityDescribeYa() {
-		return yandCityDescribe;
+		return yandcitydescribe;
 	}
 
 	public void setCityDescribeYa(String cityDescribe) {
-		this.yandCityDescribe = cityDescribe;
+		this.yandcitydescribe = cityDescribe;
 	}
 
 	public int getId() {
@@ -45,12 +51,11 @@ public class City {
 	}
 
 	public String getCityDescribeGo() {
-		return goCityDescribe;
+		return gocitydescribe;
 	}
 
 	public void setCityDescribeGo(String cityDescribeGo) {
-		this.goCityDescribe = cityDescribeGo;
+		this.gocitydescribe = cityDescribeGo;
 	}
-	
-	
+		
 }

@@ -1,6 +1,8 @@
 package weatherviewer.controllers;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,6 @@ public class IndexController {
 									{ 	
 		//add list of cities for the selection field
 		model.addAttribute("allCity", CityServiceImpl.getAllCity());
-		
 		String provider;
 		String city;
 
@@ -56,7 +57,7 @@ public class IndexController {
 		
 		if(selectedProvider.equals(""))provider=cookieProvider;
 		else provider=selectedProvider;
-	
+
 		//if city or provider throws exception
 		if(!(provider.equalsIgnoreCase("yandex")|provider.equalsIgnoreCase("gismeteo"))) {
 			provider="yandex";
@@ -70,8 +71,8 @@ public class IndexController {
 		model.addAttribute("tomorrowweather", tomorrowWeather );
 				
 		//save cookie with selected weather
-		Cookie cityCookie=new Cookie("city",city);
-		Cookie providerCookie=new Cookie("weatherprovider",provider);
+		Cookie cityCookie=new Cookie("city", URLEncoder.encode(city,"UTF-8"));
+		Cookie providerCookie=new Cookie("weatherprovider", provider);
 		cityCookie.setMaxAge(180000);
 		providerCookie.setMaxAge(180000);
 		response.addCookie(cityCookie);
