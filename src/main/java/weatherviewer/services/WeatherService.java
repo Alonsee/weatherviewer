@@ -1,4 +1,5 @@
 package weatherviewer.services;
+
 import java.io.IOException;
 
 import weatherviewer.exceptions.CityNotFoundException;

@@ -7,6 +7,7 @@ body{
 	 width:90%;
 	 margin-left:5%;
 	 background-color:#F5FFFA;
+	 font-size:12px;
 }
 
 .container{
@@ -24,9 +25,26 @@ body{
 .navbar-collapse{
  justify-content: flex-end;
 }
-input{
-	width:50%!important;
+
+.btn{
+	width:9em;
+	padding:0.1em;
+	height:2em;
 }
-label{
-	width:30%Qimportant;
+.dropdown .dropdown-menu .dropdown-item{
+	width:9em;
+	padding:0.3em;
 }
+.nav-item{
+}
+form{
+		width:10em;
+}
+.cityname{
+	width:5em!important;
+	height:2em;
+}
+.search{
+	width:5em;
+}
+

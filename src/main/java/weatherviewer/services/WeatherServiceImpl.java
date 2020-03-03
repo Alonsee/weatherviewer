@@ -1,15 +1,15 @@
 package weatherviewer.services;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import org.jsoup.Jsoup;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import weatherviewer.exceptions.CityNotFoundException;
 import weatherviewer.exceptions.CreateCityException;
@@ -20,7 +20,7 @@ import weatherviewer.pojo.SingleDayWeather;
 @RequestScope
 public class WeatherServiceImpl implements WeatherService {
 	
-	CityService CityServiceImpl;
+	private CityService CityServiceImpl;
 	
 	@Autowired
 	public void setCityServiceImpl(CityServiceImpl CityServiceImpl) {
@@ -86,7 +86,7 @@ public class WeatherServiceImpl implements WeatherService {
 															temperatures.get(7).text()});
 					
 				
-				Elements cloudiness=document.select(".w_icon .tooltip");
+				Elements cloudiness=document.select(".w_icon");
 				currentWeather.setCloudiness(new String[] {cloudiness.get(1).childNode(0).attr("data-text"),
 															cloudiness.get(3).childNode(0).attr("data-text"),
 															cloudiness.get(5).childNode(0).attr("data-text"),
@@ -170,7 +170,7 @@ public class WeatherServiceImpl implements WeatherService {
 															temperatures.get(7).text()});
 					
 				
-				Elements cloudiness=document.select(".w_icon .tooltip");
+				Elements cloudiness=document.select(".w_icon");
 				currentWeather.setCloudiness(new String[] {cloudiness.get(1).childNode(0).attr("data-text"),
 															cloudiness.get(3).childNode(0).attr("data-text"),
 															cloudiness.get(5).childNode(0).attr("data-text"),

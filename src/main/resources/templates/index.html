@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:th="https://www.thymeleaf.org" 
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
 	<meta charset="UTF-8">
@@ -54,16 +56,15 @@
 				          <a class="dropdown-item" th:href="@{/index(service='gismeteo')}" >gismeteo</a>
 				        </div>
 			      </li>    
-			      <!-- search for a city that is not in the list -->   			
-      			 <li class="nav-item">
-         			<form th:action="@{/index}" method="get">
-						<div class='form-group row'>
-							<input type='text' class='form-control' name="cityname" placeholder="Поиск">
-							<button type="submit" class="btn btn-primary">Найти</button>
-						</div>		
-					</form>
-      			 </li>
      		</ul>
+     		
+     		 <!-- search for a city that is not in the list -->   			
+         	<form th:action="@{/index}" method="get" class="form-inline my-2 my-lg-0">
+         		<div class='form-group row'>
+					<input type='text' class='form-control cityname' name="cityname" placeholder="Поиск">
+					<button type="submit" class="search btn btn-primary">Найти</button>
+				</div>
+			</form>
      
    		</div>
 	</nav>

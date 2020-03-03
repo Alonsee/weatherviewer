@@ -1,15 +1,15 @@
 package weatherviewer.services;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import weatherviewer.exceptions.CityNotFoundException;
 import weatherviewer.exceptions.CreateCityException;
@@ -20,7 +20,7 @@ import weatherviewer.repository.CityRepository;
 @RequestScope
 public class CityServiceImpl implements CityService{
 	
-	CityRepository cityRepository;
+	private CityRepository cityRepository;
 	
 	@Autowired
 	public void setCityRepository(CityRepository cityRepository){
@@ -59,6 +59,8 @@ public class CityServiceImpl implements CityService{
 										.select("a").get(0).attr("href").split("weather")[1];
 		if(gismeteo_cities.size()==2) gismeteo_link=gismeteo_cities.get(1).select(".catalog_item").get(0)
 										.select("a").get(0).attr("href").split("weather")[1];
+		
+		//if city is not fount on gismeteo or yandex throws exception
 		if (gismeteo_link=="")throw new CityNotFoundException("Cyty not found on gismeteo");
 		
 		//create a yandex page document

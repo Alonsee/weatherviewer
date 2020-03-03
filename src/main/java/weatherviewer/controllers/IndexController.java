@@ -1,16 +1,17 @@
 package weatherviewer.controllers;
 
-import java.io.IOException;
-import java.net.URLEncoder;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.IOException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import weatherviewer.exceptions.CityNotFoundException;
 import weatherviewer.exceptions.CreateCityException;
 import weatherviewer.exceptions.ProviderNotFoundException;
@@ -52,9 +53,9 @@ public class IndexController {
 		//if not selected check the cookies
 		//if there is no cookies select default values from the cookies
 		if(selectedCity.equals("")&&cookieCity.equals("")) return "index.html";
-		else if(selectedCity.equals("")&&!cookieCity.equals("")) city=cookieCity;
+		else if(selectedCity.equals("")&&!cookieCity.equals("")) city=cookieCity.replace("|", " ");
 		else city=selectedCity;
-		
+
 		if(selectedProvider.equals(""))provider=cookieProvider;
 		else provider=selectedProvider;
 
@@ -71,7 +72,9 @@ public class IndexController {
 		model.addAttribute("tomorrowweather", tomorrowWeather );
 				
 		//save cookie with selected weather
-		Cookie cityCookie=new Cookie("city", URLEncoder.encode(city,"UTF-8"));
+		//spaces are replased, because
+		//it is an invalid character in the Cookie value
+		Cookie cityCookie=new Cookie("city", city.replace(" ","|"));
 		Cookie providerCookie=new Cookie("weatherprovider", provider);
 		cityCookie.setMaxAge(180000);
 		providerCookie.setMaxAge(180000);
