@@ -11,3 +11,5 @@ insert into cities (cityName, yandCityDescribe, goCityDescribe) values
 	('Екатеринбург','yekaterinburg','-yekaterinburg-4517/'),
 	('Верхняя Пышма','verhnyaya-pyshma','-verkhnyaya-pyshma-12758/'),
 	('Сочи','sochi','-sochi-5233/');
+	
+	

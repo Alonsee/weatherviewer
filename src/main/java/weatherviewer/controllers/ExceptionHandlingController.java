@@ -13,18 +13,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ExceptionHandlingController extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
-	protected String handleException(HttpServletRequest request, HttpServletResponse response,Exception e,Model model) {
+	protected String handleException(HttpServletRequest request, 
+			                         HttpServletResponse response,
+			                         Exception e,Model model) {
 		    model.addAttribute("exception", e.getMessage());
 		    model.addAttribute("url", request.getRequestURL());
 		    
 		    //on exception remove cookie
-		    Cookie citycookie=new Cookie("city","");
-			Cookie providercookie=new Cookie("weatherprovider","");
+		    Cookie citycookie = new Cookie("city", "");
+			Cookie providercookie = new Cookie("weatherprovider", "");
 			citycookie.setMaxAge(0);
 			providercookie.setMaxAge(0);
 			response.addCookie(citycookie);
 			response.addCookie(providercookie);
 		    return "error.html";
 	}
-
 }

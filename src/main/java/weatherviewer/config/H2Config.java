@@ -13,7 +13,7 @@ public class H2Config {
 
 	@Bean
 	public DataSource dataSource() {
-		DriverManagerDataSource dataSource=new DriverManagerDataSource();
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver");
 		dataSource.setUrl("jdbc:h2:mem:citiesdb;DB_CLOSE_DELAY=-1");
 		dataSource.setUsername("un");

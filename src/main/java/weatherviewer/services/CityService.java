@@ -13,8 +13,10 @@ public interface CityService {
 	public ArrayList<City> getAllCity();
 	
 	//searching for a city by name
-	public City searchCity(String cityname) throws IOException, CityNotFoundException, CreateCityException;
+	public City searchCity(String cityname) 
+			throws IOException, CityNotFoundException, CreateCityException;
 	
 	//searching new city on services
-	public City searchNewCity(String cityname) throws IOException, CityNotFoundException, CreateCityException;
+	public City searchNewCity(String cityname) 
+			throws IOException, CityNotFoundException, CreateCityException;
 }

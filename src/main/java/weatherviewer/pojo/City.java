@@ -7,11 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="cities")
+@Table(name = "cities")
 public class City {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private String cityname;
@@ -20,10 +20,10 @@ public class City {
 	
 	public City() {}
 	
-	public City(String name, String yandDescribe,String goDescribe) {
-		cityname=name;
-		yandcitydescribe=yandDescribe;
-		gocitydescribe=goDescribe;
+	public City(String name, String yandDescribe, String goDescribe) {
+		cityname = name;
+		yandcitydescribe = yandDescribe;
+		gocitydescribe = goDescribe;
 	}
 
 	public String getCityName() {

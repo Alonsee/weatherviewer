@@ -24,7 +24,7 @@ public class CityServiceImpl implements CityService{
 	
 	@Autowired
 	public void setCityRepository(CityRepository cityRepository){
-		this.cityRepository=cityRepository;
+		this.cityRepository = cityRepository;
 	}
 	
 	public CityServiceImpl() {}
@@ -38,10 +38,14 @@ public class CityServiceImpl implements CityService{
 	public City searchCity(String cityname) 
 			throws IOException, CityNotFoundException, CreateCityException {
 		//search city in saved list
-		List<City> cities=cityRepository.findByCityname(cityname);
-		if(cities.size()!=0) return cities.get(0);
+		List<City> cities = cityRepository.findByCityname(cityname);
+		if(cities.size() != 0) {
+			return cities.get(0);
+		}
 		//try to create new city object if not found in saved list
-		else return searchNewCity(cityname);
+		else {
+			return searchNewCity(cityname);
+		}
 	}
 
 	@Override
@@ -49,34 +53,46 @@ public class CityServiceImpl implements CityService{
 			throws IOException, CityNotFoundException, CreateCityException {
 		
 		//create a gismeteo page document
-		Document gismeteo_document=Jsoup.connect("https://www.gismeteo.ru/search/"+cityname).get();
+		Document gismeteo_document = Jsoup.connect("https://www.gismeteo.ru/search/" + cityname).get();
 
-		Elements gismeteo_cities=gismeteo_document.select(".catalog_block");
+		Elements gismeteo_cities = gismeteo_document.select(".catalog_block");
 		
 		//crate link to gismeteo
-		String gismeteo_link="";
-		if(gismeteo_cities.size()==1) gismeteo_link=gismeteo_cities.get(0).select(".catalog_item").get(0)
-										.select("a").get(0).attr("href").split("weather")[1];
-		if(gismeteo_cities.size()==2) gismeteo_link=gismeteo_cities.get(1).select(".catalog_item").get(0)
-										.select("a").get(0).attr("href").split("weather")[1];
+		String gismeteo_link = "";
+		if (gismeteo_cities.size() == 1) {
+			gismeteo_link = gismeteo_cities.get(0).select(".catalog_item").get(0)
+					                     .select("a").get(0).attr("href").split("weather")[1];
+		}
+										
+		if (gismeteo_cities.size() == 2) {
+		    gismeteo_link = gismeteo_cities.get(1).select(".catalog_item").get(0)
+										 .select("a").get(0).attr("href").split("weather")[1];
+		}
 		
 		//if city is not fount on gismeteo or yandex throws exception
-		if (gismeteo_link=="")throw new CityNotFoundException("Cyty not found on gismeteo");
+		if (gismeteo_link == "") {
+			throw new CityNotFoundException("Cyty not found on gismeteo");
+		}
 		
 		//create a yandex page document
-		Document yandex_document=Jsoup.connect("https://yandex.ru/pogoda/search?request="+cityname).get();
+		Document yandex_document = Jsoup.connect("https://yandex.ru/pogoda/search?request=" + cityname).get();
 
-		Elements yandex_cities=yandex_document.select(".place-list__item-name");
+		Elements yandex_cities = yandex_document.select(".place-list__item-name");
 		
 		//create link to yandex
-		String yandex_link="";
-		if(yandex_cities.size()>0)yandex_link=yandex_cities.get(0).select("a").get(0)
-									.attr("href").split("/pogoda/")[1].split("\\?")[0];
+		String yandex_link = "";
+		if (yandex_cities.size() > 0) {
+			yandex_link=yandex_cities.get(0).select("a").get(0)
+					                 .attr("href").split("/pogoda/")[1].split("\\?")[0];
+		}
+									
 		
-		if (yandex_link=="")throw new CityNotFoundException("Cyty not found on yandex");
+		if (yandex_link == "") {
+			throw new CityNotFoundException("Cyty not found on yandex");
+		}
 		
 		//if the links are found create a new city
-		return new City(yandex_cities.get(0).text().split(",")[0],yandex_link,gismeteo_link);
+		return new City(yandex_cities.get(0).text().split(",")[0], yandex_link, gismeteo_link);
 
 	}
 

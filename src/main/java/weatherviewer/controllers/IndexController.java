@@ -27,23 +27,23 @@ public class IndexController {
 	
 	@Autowired
 	public void setWeatherServiceImpl(WeatherService WeatherServiceImpl) {
-		this.WeatherServiceImpl=WeatherServiceImpl;
+		this.WeatherServiceImpl = WeatherServiceImpl;
 	}
 	
 	@Autowired
 	public void setCityServiceImpl(CityService CityServiceImpl) {
-		this.CityServiceImpl=CityServiceImpl;
+		this.CityServiceImpl = CityServiceImpl;
 	}
 
-	@GetMapping({"/","/index"})
-	public String searchweather(@RequestParam(name="cityname",required=false,defaultValue="") String selectedCity,
-								@RequestParam(name="service",required=false,defaultValue="") String selectedProvider,
-								@CookieValue(value="city",defaultValue="")String cookieCity,
-		    					@CookieValue(value="weatherprovider",defaultValue="yandex")String cookieProvider,
+	@GetMapping({"/", "/index"})
+	public String searchweather(@RequestParam(name = "cityname", required = false, defaultValue = "") String selectedCity,
+								@RequestParam(name = "service", required = false, defaultValue = "") String selectedProvider,
+								@CookieValue(value = "city", defaultValue = "")String cookieCity,
+		    					@CookieValue(value = "weatherprovider", defaultValue = "yandex") String cookieProvider,
 								HttpServletResponse response, 
 								Model model)
-								throws CityNotFoundException, ProviderNotFoundException, IOException, CreateCityException
-									{ 	
+								throws CityNotFoundException, ProviderNotFoundException, IOException, CreateCityException{ 	
+		
 		//add list of cities for the selection field
 		model.addAttribute("allCity", CityServiceImpl.getAllCity());
 		String provider;
@@ -52,30 +52,40 @@ public class IndexController {
 		//check the choice of city or service
 		//if not selected check the cookies
 		//if there is no cookies select default values from the cookies
-		if(selectedCity.equals("")&&cookieCity.equals("")) return "index.html";
-		else if(selectedCity.equals("")&&!cookieCity.equals("")) city=cookieCity.replace("|", " ");
-		else city=selectedCity;
+		if (selectedCity.equals("") && cookieCity.equals("")) {
+			return "index.html";
+		}
+		else if (selectedCity.equals("") && !cookieCity.equals("")) {
+			city = cookieCity.replace("|", " ");
+		}
+		else {
+			city = selectedCity;
+		}
 
-		if(selectedProvider.equals(""))provider=cookieProvider;
-		else provider=selectedProvider;
+		if (selectedProvider.equals("")) {
+			provider = cookieProvider;
+		}
+		else {
+			provider = selectedProvider;
+		}
 
 		//if city or provider throws exception
-		if(!(provider.equalsIgnoreCase("yandex")|provider.equalsIgnoreCase("gismeteo"))) {
-			provider="yandex";
+		if (!(provider.equalsIgnoreCase("yandex") | provider.equalsIgnoreCase("gismeteo"))) {
+			provider = "yandex";
 			throw new ProviderNotFoundException("Service not found");
 		}
 		
 		//displays the current weather when selected city or service are changed
-		SingleDayWeather currentWeather=WeatherServiceImpl.getCurrentWeather(city, provider);
+		SingleDayWeather currentWeather = WeatherServiceImpl.getCurrentWeather(city, provider);
 		model.addAttribute("currentweather", currentWeather );	
-		SingleDayWeather tomorrowWeather=WeatherServiceImpl.getTomorrowWeather(city, provider);
+		SingleDayWeather tomorrowWeather = WeatherServiceImpl.getTomorrowWeather(city, provider);
 		model.addAttribute("tomorrowweather", tomorrowWeather );
 				
 		//save cookie with selected weather
 		//spaces are replased, because
 		//it is an invalid character in the Cookie value
-		Cookie cityCookie=new Cookie("city", city.replace(" ","|"));
-		Cookie providerCookie=new Cookie("weatherprovider", provider);
+		Cookie cityCookie = new Cookie("city", city.replace(" ","|"));
+		Cookie providerCookie = new Cookie("weatherprovider", provider);
 		cityCookie.setMaxAge(180000);
 		providerCookie.setMaxAge(180000);
 		response.addCookie(cityCookie);
@@ -83,4 +93,6 @@ public class IndexController {
 		return "index.html";		
     }
 
+
+		
 }
