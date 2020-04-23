@@ -1,10 +1,7 @@
 package weatherviewer.services;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import weatherviewer.exceptions.CityNotFoundException;
-import weatherviewer.exceptions.CreateCityException;
 import weatherviewer.pojo.City;
 
 public interface CityService {
@@ -14,9 +11,9 @@ public interface CityService {
 	
 	//searching for a city by name
 	public City searchCity(String cityname) 
-			throws IOException, CityNotFoundException, CreateCityException;
+			throws Exception;
 	
 	//searching new city on services
 	public City searchNewCity(String cityname) 
-			throws IOException, CityNotFoundException, CreateCityException;
+			throws Exception;
 }

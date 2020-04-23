@@ -1,18 +1,16 @@
 package weatherviewer.services;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
-import java.io.IOException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import weatherviewer.exceptions.CityNotFoundException;
-import weatherviewer.exceptions.CreateCityException;
 import weatherviewer.pojo.City;
 import weatherviewer.pojo.SingleDayWeather;
 
@@ -29,7 +27,7 @@ public class WeatherServiceImpl implements WeatherService {
 	
 	@Override
 	public SingleDayWeather getCurrentWeather(String selectedcity, String weatherProvider)
-            throws IOException, CityNotFoundException, CreateCityException{
+            throws Exception{
 		//search for the selected city
 		City city = CityServiceImpl.searchCity(selectedcity);
 		
@@ -121,7 +119,7 @@ public class WeatherServiceImpl implements WeatherService {
 
 	@Override
 	public SingleDayWeather getTomorrowWeather(String selectedcity, String weatherProvider) 
-			throws IOException, CityNotFoundException, CreateCityException{
+			throws Exception{
 		City city = CityServiceImpl.searchCity(selectedcity);
 		GregorianCalendar currentDate = new GregorianCalendar();
 		currentDate.roll(Calendar.DAY_OF_YEAR, 1);

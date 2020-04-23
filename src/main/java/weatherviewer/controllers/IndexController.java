@@ -8,22 +8,17 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
-import weatherviewer.exceptions.CityNotFoundException;
-import weatherviewer.exceptions.CreateCityException;
-import weatherviewer.exceptions.ProviderNotFoundException;
 import weatherviewer.pojo.SingleDayWeather;
 import weatherviewer.services.*;
 
 @Controller
 public class IndexController {
 	
-	WeatherService WeatherServiceImpl;
+	private WeatherService WeatherServiceImpl;
 	
-	CityService CityServiceImpl;
+	private CityService CityServiceImpl;
 	
 	@Autowired
 	public void setWeatherServiceImpl(WeatherService WeatherServiceImpl) {
@@ -38,11 +33,11 @@ public class IndexController {
 	@GetMapping({"/", "/index"})
 	public String searchweather(@RequestParam(name = "cityname", required = false, defaultValue = "") String selectedCity,
 								@RequestParam(name = "service", required = false, defaultValue = "") String selectedProvider,
-								@CookieValue(value = "city", defaultValue = "")String cookieCity,
+								@CookieValue(value = "city", defaultValue = "") String cookieCity,
 		    					@CookieValue(value = "weatherprovider", defaultValue = "yandex") String cookieProvider,
 								HttpServletResponse response, 
 								Model model)
-								throws CityNotFoundException, ProviderNotFoundException, IOException, CreateCityException{ 	
+								throws Exception{ 	
 		
 		//add list of cities for the selection field
 		model.addAttribute("allCity", CityServiceImpl.getAllCity());
@@ -69,10 +64,9 @@ public class IndexController {
 			provider = selectedProvider;
 		}
 
-		//if city or provider throws exception
+		//if provider not found throws exception
 		if (!(provider.equalsIgnoreCase("yandex") | provider.equalsIgnoreCase("gismeteo"))) {
-			provider = "yandex";
-			throw new ProviderNotFoundException("Service not found");
+			throw new Exception("Service not found");
 		}
 		
 		//displays the current weather when selected city or service are changed

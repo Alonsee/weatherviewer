@@ -1,18 +1,16 @@
 package weatherviewer.services;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
-import java.io.IOException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import weatherviewer.exceptions.CityNotFoundException;
-import weatherviewer.exceptions.CreateCityException;
 import weatherviewer.pojo.City;
 import weatherviewer.repository.CityRepository;
 
@@ -36,7 +34,7 @@ public class CityServiceImpl implements CityService{
 	
 	@Override
 	public City searchCity(String cityname) 
-			throws IOException, CityNotFoundException, CreateCityException {
+			throws Exception {
 		//search city in saved list
 		List<City> cities = cityRepository.findByCityname(cityname);
 		if(cities.size() != 0) {
@@ -50,7 +48,7 @@ public class CityServiceImpl implements CityService{
 
 	@Override
 	public City searchNewCity(String cityname) 
-			throws IOException, CityNotFoundException, CreateCityException {
+			throws Exception {
 		
 		//create a gismeteo page document
 		Document gismeteo_document = Jsoup.connect("https://www.gismeteo.ru/search/" + cityname).get();
@@ -71,7 +69,7 @@ public class CityServiceImpl implements CityService{
 		
 		//if city is not fount on gismeteo or yandex throws exception
 		if (gismeteo_link == "") {
-			throw new CityNotFoundException("Cyty not found on gismeteo");
+			throw new Exception("Cyty not found on gismeteo");
 		}
 		
 		//create a yandex page document
@@ -88,7 +86,7 @@ public class CityServiceImpl implements CityService{
 									
 		
 		if (yandex_link == "") {
-			throw new CityNotFoundException("Cyty not found on yandex");
+			throw new Exception("Cyty not found on yandex");
 		}
 		
 		//if the links are found create a new city
