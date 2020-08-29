@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 				"weatherviewer.controllers",
 				"weatherviewer.services"})
 @EnableJpaRepositories("weatherviewer.repository")
-@EntityScan("weatherviewer.pojo")
+@EntityScan("weatherviewer.entity")
 public class Application {
 	
 	public static void main(String[] args) {

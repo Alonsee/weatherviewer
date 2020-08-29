@@ -2,7 +2,7 @@ package weatherviewer.services;
 
 import java.util.ArrayList;
 
-import weatherviewer.pojo.City;
+import weatherviewer.entity.City;
 
 public interface CityService {
 	

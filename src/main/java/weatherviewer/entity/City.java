@@ -1,4 +1,4 @@
-package weatherviewer.pojo;
+package weatherviewer.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

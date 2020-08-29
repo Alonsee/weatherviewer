@@ -1,4 +1,6 @@
-package weatherviewer.pojo;
+package weatherviewer.dto;
+
+import weatherviewer.entity.City;
 
 import java.util.GregorianCalendar;
 

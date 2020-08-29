@@ -1,6 +1,6 @@
 package weatherviewer.services;
 
-import weatherviewer.pojo.SingleDayWeather;
+import weatherviewer.dto.SingleDayWeather;
 
 public interface WeatherService {
 

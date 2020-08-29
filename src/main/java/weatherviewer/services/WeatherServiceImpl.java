@@ -11,8 +11,8 @@ import org.jsoup.select.Elements;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import weatherviewer.pojo.City;
-import weatherviewer.pojo.SingleDayWeather;
+import weatherviewer.entity.City;
+import weatherviewer.dto.SingleDayWeather;
 
 @Service
 @RequestScope

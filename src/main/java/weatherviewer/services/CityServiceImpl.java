@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import weatherviewer.pojo.City;
+import weatherviewer.entity.City;
 import weatherviewer.repository.CityRepository;
 
 @Service
